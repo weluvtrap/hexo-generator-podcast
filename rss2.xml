@@ -1,37 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
+<rss xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+     xmlns:googleplay="http://www.google.com/schemas/play-podcasts/1.0" 
+     xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+     xmlns:spotify="http://www.spotify.com/ns/rss"
+     version="2.0">
   <channel>
+    <generator>https://weluvtrap.com</generator>
     <title>{{ config.title | xml_escape }}</title>
     <link>{{ config.url }}{{ config.baseurl }}/</link>
     <copyright>{{ config.copyright }}</copyright>
-    <itunes:subtitle></itunes:subtitle>
+    <googleplay:author>{{ config.podcast.owner }}</googleplay:author>
+    <googleplay:email>{{ config.podcast.email }}</googleplay:email>
+    <googleplay:image href="{{ config.thumbnail_url }}" />
+    <itunes:type>episodic</itunes:type>
     <itunes:author>{{ config.author }}</itunes:author>
     <itunes:summary>{{ config.description | xml_escape }}</itunes:summary>
+    <itunes:subtitle>{{ config.description | xml_escape }}</itunes:subtitle>
     <itunes:owner>
       <itunes:name>{{ config.podcast.owner }}</itunes:name>
       <itunes:email>{{ config.podcast.email }}</itunes:email>
     </itunes:owner>
-    <itunes:image href="{{ config.url }}{{ config.default_thumb }}" />
-    <itunes:category text="{{ config.podcast.category }}">
-      <itunes:category text="{{ config.podcast.category }}" />
-    </itunes:category>
-    <itunes:explicit>no</itunes:explicit>
+    <itunes:image href="{{ config.thumbnail_url }}" />
+    <image>
+        <url>{{ config.thumbnail_url }}</url>
+        <title>{{ config.title | xml_escape }}</title>
+        <link>{{ config.url }}</link>
+    </image>
+    {% for category in podcast_categories %}
+      <itunes:category text="{{ category.name }}">
+      {% for subcategory in category.subcategories %}
+        <itunes:category text="{{ subcategory }}" />
+      {% endfor %}
+      </itunes:category>
+    {% endfor %}
+    {% for category in podcast_categories %}
+      {% for subcategory in category.subcategories %}
+        <googleplay:category text="{{ subcategory }}" />
+        <itunes:category text="{{ subcategory }}" />
+      {% endfor %}
+    {% endfor %}
     <language>{{ config.podcast.language }}</language>
+    <itunes:explicit>{{ config.podcast.explicit }}</itunes:explicit>
+    
     {% for post in podcast_posts %}
     <item>
       <guid isPermaLink="false">{{ config.post.uuid }}</guid>
       <title>{{ post.title | xml_escape}}</title>
-      <description> {{ post.content | strip_html | xml_escape }} </description>
+      <description> {{ post.description | strip_html | xml_escape }} </description>
       <itunes:author> {{ config.author }}</itunes:author>
-      <itunes:subtitle> {{ post.subtitle }}</itunes:subtitle>
-      <itunes:summary> {{ post.excerpt | strip_html | xml_escape }} </itunes:summary>
-      <itunes:image href="{{ config.podcast.url }}{{ post.image }}" />
-      <link>{{ post.link }}</link>
-      <enclosure url="{{ config.podcast.url }}{{ post.media }}" length="{{ post.length }}" type="{{ post.mediatype }}"/>
+      <itunes:subtitle> {{ post.description | strip_html | xml_escape }}</itunes:subtitle>
+      <itunes:summary> {{ post.description | strip_html | xml_escape }} </itunes:summary>
+      <itunes:image href="{{ config.podcast.files_url }}{{ post.thumbnail_url }}" />
+      <link>{{ post.permalink }}</link>
+      <enclosure url="{{ config.podcast.media_url }}{{ post.media }}" length="{{ post.length }}" type="{{ post.mediatype }}"/>
       <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
       <itunes:duration>{{ post.duration }}</itunes:duration>
       <itunes:episodeType>full</itunes:episodeType>
       <itunes:episode>{{ post.episode }}</itunes:episode>
+      <content:encoded><![CDATA[{{ post.extras | safe }}]]></content:encoded>
       <psc:chapters version="1.2" xmlns:psc="http://podlove.org/simple-chapters">
         {% for chapter in post.chapters %}
           <psc:chapter start="{{ chapter[0] }}" title="{{ chapter[1] | xml_escape }}" />
