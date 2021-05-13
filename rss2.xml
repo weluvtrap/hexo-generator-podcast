@@ -10,6 +10,9 @@
     <title>{{ config.title | xml_escape }}</title>
     <link>{{ config.url }}{{ config.baseurl }}/</link>
     <copyright>{{ config.copyright }}</copyright>
+    <description>
+      {{ config.description }}
+    </description>
     <googleplay:author>{{ config.podcast.owner }}</googleplay:author>
     <googleplay:email>{{ config.podcast.email }}</googleplay:email>
     <googleplay:image href="{{ config.podcast.thumbnail_url }}" />
