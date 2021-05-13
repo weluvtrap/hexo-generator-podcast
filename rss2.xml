@@ -11,15 +11,15 @@
     <link>{{ config.url }}{{ config.baseurl }}/</link>
     <copyright>{{ config.copyright }}</copyright>
     <description>
-      {{ config.description }}
+      {{ config.description | safe }}
     </description>
     <googleplay:author>{{ config.podcast.owner }}</googleplay:author>
     <googleplay:email>{{ config.podcast.email }}</googleplay:email>
     <googleplay:image href="{{ config.podcast.thumbnail_url }}" />
     <itunes:type>episodic</itunes:type>
     <itunes:author>{{ config.author }}</itunes:author>
-    <itunes:summary>{{ config.description | xml_escape }}</itunes:summary>
-    <itunes:subtitle>{{ config.summary | xml_escape }}</itunes:subtitle>
+    <itunes:summary>{{ config.description | safe }}</itunes:summary>
+    <itunes:subtitle>{{ config.summary | safe }}</itunes:subtitle>
     <itunes:keywords>{{ config.keywords }}</itunes:keywords>
     <itunes:owner>
       <itunes:name>{{ config.podcast.owner }}</itunes:name>
