@@ -6,6 +6,7 @@
      version="2.0">
   <channel>
     <generator>https://weluvtrap.com</generator>
+    <lastBuildDate>{{ last_build_date }}</lastBuildDate>
     <title>{{ config.title | xml_escape }}</title>
     <link>{{ config.url }}{{ config.baseurl }}/</link>
     <copyright>{{ config.copyright }}</copyright>
@@ -16,6 +17,7 @@
     <itunes:author>{{ config.author }}</itunes:author>
     <itunes:summary>{{ config.description | xml_escape }}</itunes:summary>
     <itunes:subtitle>{{ config.summary | xml_escape }}</itunes:subtitle>
+    <itunes:keywords>{{ config.keywords }}</itunes:keywords>
     <itunes:owner>
       <itunes:name>{{ config.podcast.owner }}</itunes:name>
       <itunes:email>{{ config.podcast.email }}</itunes:email>
