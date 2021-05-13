@@ -11,18 +11,18 @@
     <copyright>{{ config.copyright }}</copyright>
     <googleplay:author>{{ config.podcast.owner }}</googleplay:author>
     <googleplay:email>{{ config.podcast.email }}</googleplay:email>
-    <googleplay:image href="{{ config.thumbnail_url }}" />
+    <googleplay:image href="{{ config.podcast.thumbnail_url }}" />
     <itunes:type>episodic</itunes:type>
     <itunes:author>{{ config.author }}</itunes:author>
     <itunes:summary>{{ config.description | xml_escape }}</itunes:summary>
-    <itunes:subtitle>{{ config.description | xml_escape }}</itunes:subtitle>
+    <itunes:subtitle>{{ config.summary | xml_escape }}</itunes:subtitle>
     <itunes:owner>
       <itunes:name>{{ config.podcast.owner }}</itunes:name>
       <itunes:email>{{ config.podcast.email }}</itunes:email>
     </itunes:owner>
-    <itunes:image href="{{ config.thumbnail_url }}" />
+    <itunes:image href="{{ config.podcast.thumbnail_url }}" />
     <image>
-        <url>{{ config.thumbnail_url }}</url>
+        <url>{{ config.podcast.thumbnail_url }}</url>
         <title>{{ config.title | xml_escape }}</title>
         <link>{{ config.url }}</link>
     </image>
@@ -36,19 +36,17 @@
     {% for category in podcast_categories %}
       {% for subcategory in category.subcategories %}
         <googleplay:category text="{{ subcategory }}" />
-        <itunes:category text="{{ subcategory }}" />
       {% endfor %}
     {% endfor %}
     <language>{{ config.podcast.language }}</language>
     <itunes:explicit>{{ config.podcast.explicit }}</itunes:explicit>
-    
     {% for post in podcast_posts %}
     <item>
-      <guid isPermaLink="false">{{ config.post.uuid }}</guid>
+      <guid isPermaLink="false">{{ post.uuid }}</guid>
       <title>{{ post.title | xml_escape}}</title>
       <description> {{ post.description | strip_html | xml_escape }} </description>
       <itunes:author> {{ config.author }}</itunes:author>
-      <itunes:subtitle> {{ post.description | strip_html | xml_escape }}</itunes:subtitle>
+      <itunes:subtitle> {{ post.summary | strip_html | xml_escape }}</itunes:subtitle>
       <itunes:summary> {{ post.description | strip_html | xml_escape }} </itunes:summary>
       <itunes:image href="{{ config.podcast.files_url }}{{ post.thumbnail_url }}" />
       <link>{{ post.permalink }}</link>
